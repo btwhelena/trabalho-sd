@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package smart_environment;
+
+message DeviceDiscoveryRequest {
+  string gateway_id = 1;
+}
+
+message DeviceDiscoveryResponse {
+  string device_id = 1;
+  string device_type = 2; // Ex: "lamp", "temperature_sensor"
+  string ip_address = 3;
+  int32 port = 4;
+  string initial_state = 5; // Ex: "on", "off", "22°C"
+}
+
+message DeviceStateUpdate {
+  string device_id = 1;
+  string state = 2; // Estado atual do dispositivo
+}
+
+message DeviceCommand {
+  string device_id = 1;
+  string command = 2; // Comando enviado ao dispositivo (Ex: "turn_on", "set_temperature")
+  string value = 3;  // Valor associado ao comando, se aplicável
+}
+
+message ClientRequest {
+  string request_type = 1; // Ex: "list_devices", "send_command"
+  string device_id = 2;  // Opcional, aplicável em comandos específicos
+  string command = 3;    // Comando para dispositivos (se aplicável)
+  string value = 4;      // Valor associado ao comando (se aplicável)
+}
+
+message ClientResponse {
+  string status = 1; // Ex: "success", "error"
+  string message = 2; // Detalhes adicionais ou mensagem de erro
+  repeated DeviceInfo devices = 3; // Lista de dispositivos (para "list_devices")
+}
+
+message DeviceInfo {
+  string device_id = 1;
+  string device_type = 2;
+  string state = 3; // Estado atual do dispositivo
+}
